@@ -1,0 +1,36 @@
+import { test, expect } from '@playwright/test';
+
+test.describe('Amy Core Tests', () => {
+  test.beforeEach(async ({ page }) => {
+    // Navigate to Amy's starting page
+    await page.goto('http://localhost:3000');
+  });
+
+  test('should show Amy welcome message', async ({ page }) => {
+    await expect(page.locator('h1')).toContainText('Amy');
+  });
+
+  test('should respond to basic greeting', async ({ page }) => {
+    const chatInput = page.locator('[data-testid="chat-input"]');
+    await chatInput.fill('Hello Amy');
+    await chatInput.press('Enter');
+    
+    const response = page.locator('[data-testid="amy-response"]').first();
+    await expect(response).toContainText(/hi|hello|hey/i);
+  });
+
+  test('should maintain conversation context', async ({ page }) => {
+    const chatInput = page.locator('[data-testid="chat-input"]');
+    
+    // First message
+    await chatInput.fill('My name is Alice');
+    await chatInput.press('Enter');
+    
+    // Second message should remember the name
+    await chatInput.fill('What is my name?');
+    await chatInput.press('Enter');
+    
+    const response = page.locator('[data-testid="amy-response"]').nth(1);
+    await expect(response).toContainText('Alice');
+  });
+});
