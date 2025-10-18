@@ -45,3 +45,44 @@ Example .gitignore snippet (project root):
 .env
 .env.local
 ```
+
+Cross-shell helpers
+-------------------
+
+This repo also includes helper scripts for other shells and platforms:
+
+- `scripts/setkey.fish` — fish shell users
+- `scripts/setkey.csh` — csh / tcsh users
+- `scripts/setkey.ps1` — Windows PowerShell users
+
+Usage (make executable where applicable):
+
+fish:
+```bash
+chmod +x scripts/setkey.fish
+./scripts/setkey.fish
+```
+
+csh/tcsh:
+```bash
+chmod +x scripts/setkey.csh
+./scripts/setkey.csh
+```
+
+PowerShell (run in an elevated or normal PowerShell session):
+```powershell
+# from repo root
+.
+Set-ExecutionPolicy -Scope CurrentUser -ExecutionPolicy RemoteSigned -Force # if required
+.
+\scripts\setkey.ps1
+```
+
+Each helper follows the same security pattern:
+
+- creates `~/.config/openai` (or `%USERPROFILE%\.config\openai` on Windows),
+- writes the key in a shell-appropriate env file,
+- sets restrictive permissions when possible,
+- and registers the env file to be sourced from the user's normal profile file.
+
+If you'd like support for other shells (fish zsh integration, Windows WSL integration, or system-wide configuration), reply and I will add it.
