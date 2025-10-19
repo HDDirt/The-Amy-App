@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Amy — Mobile Preview</title>
+  <link rel="stylesheet" href="./amy.css" />
+</head>
+<body>
+  <main class="panel">
+    <div class="avatar-wrap">
+      <img id="amy-avatar" src="../assets/amy.png" alt="Amy avatar (replace with your image)" />
+    </div>
+
+    <h1 class="name">Amy</h1>
+    <p class="subtitle">Use the controls below to let Amy interact with other apps via URL schemes or web URLs.</p>
+
+    <div class="controls">
+      <input id="url-input" placeholder="Enter URL or app scheme (e.g. twitter://user?screen_name=example or https://example.com)" />
+      <div class="btn-row">
+        <button id="open-btn">Open URL / App</button>
+        <button id="preview-native-btn">Send to Native (if available)</button>
+      </div>
+
+      <div class="quick">
+        <button data-url="twitter://">Open Twitter (scheme)</button>
+        <button data-url="fb://">Open Facebook (scheme)</button>
+        <button data-url="prefs:root=General">Open Settings (iOS scheme may vary)</button>
+        <button data-url="https://www.google.com">Open Web (Google)</button>
+      </div>
+
+      <div class="log" id="log"></div>
+      
+      <!-- Debug Panel (hidden by default) -->
+      <div id="debug-panel" class="debug-panel"></div>
+      
+      <!-- Installation Guide -->
+      <div class="install-guide">
+        <h3>Install on iPhone</h3>
+        <ol>
+          <li>Clone the repository:
+            <code>git clone https://github.com/HDDirt/The-Amy-App.git</code>
+          </li>
+          <li>Install dependencies:
+            <code>npm install</code>
+          </li>
+          <li>Initialize iOS project:
+            <code>npm run ios:init && npm run ios:add</code>
+          </li>
+          <li>Build web assets:
+            <code>npm run build</code>
+          </li>
+          <li>Sync to iOS:
+            <code>npm run ios:sync</code>
+          </li>
+          <li>Open in Xcode:
+            <code>npm run ios:open</code>
+          </li>
+          <li>In Xcode:
+            <ul>
+              <li>Select your team for signing</li>
+              <li>Choose your device</li>
+              <li>Click Run (▶️)</li>
+            </ul>
+          </li>
+        </ol>
+        <p>For TestFlight distribution, see the <a href="https://developer.apple.com/testflight/">Apple TestFlight documentation</a>.</p>
+      </div>
+    </div>
+  </main>
+
+  <script src="./amy.js"></script>
+</body>
+</html>

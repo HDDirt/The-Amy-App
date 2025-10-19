@@ -1,0 +1,12 @@
+{
+  "name": "amy-avatar-creator",
+  "version": "1.0.0",
+  "description": "Mobile-friendly avatar creator for Amy App",
+  "scripts": {
+    "test": "playwright test",
+    "serve": "python3 -m http.server 8001"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.35.0"
+  }
+}

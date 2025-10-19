@@ -1,0 +1,223 @@
+:root {
+    --bg-color: #0b0b0b;
+    --text-color: #f5cc42;
+    --accent-color: #e50914;
+    --surface-color: #1a1a1a;
+    --border-color: #f5cc42;
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Poppins', sans-serif;
+    min-height: 100vh;
+    padding: 20px;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+h1 {
+    color: var(--accent-color);
+    margin-bottom: 30px;
+    font-size: 24px;
+}
+
+.upload-section {
+    background-color: var(--surface-color);
+    padding: 20px;
+    border: 2px dashed var(--border-color);
+    border-radius: 15px;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.camera-button,
+.upload-button {
+    background-color: var(--accent-color);
+    color: white;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.camera-button:hover,
+.upload-button:hover {
+    background-color: var(--border-color);
+    color: var(--bg-color);
+}
+
+.hidden {
+    display: none;
+}
+
+.avatar-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 30px;
+}
+
+.avatar-item {
+    position: relative;
+    aspect-ratio: 1;
+    border-radius: 15px;
+    overflow: hidden;
+    border: 2px solid transparent;
+    transition: transform 0.3s ease;
+}
+
+.avatar-item.selected {
+    border-color: var(--border-color);
+    transform: scale(1.05);
+}
+
+.avatar-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-section {
+    text-align: center;
+}
+
+.avatar-preview {
+    width: 200px;
+    height: 200px;
+    margin: 0 auto 20px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid var(--border-color);
+    box-shadow: 0 0 20px rgba(229, 9, 20, 0.3);
+}
+
+.avatar-preview img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.filter-controls {
+    margin: 15px 0;
+}
+
+.filter-select {
+    background: var(--surface-color);
+    color: var(--text-color);
+    border: 2px solid var(--border-color);
+    padding: 10px 15px;
+    border-radius: 8px;
+    font-size: 16px;
+    width: 200px;
+    cursor: pointer;
+    appearance: none;
+    -webkit-appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='%23f5cc42'%3E%3Cpath d='M7 10l5 5 5-5z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 10px center;
+}
+
+.filter-select:focus {
+    outline: none;
+    border-color: var(--accent-color);
+}
+
+/* Touch effects */
+.ripple {
+    position: absolute;
+    border-radius: 50%;
+    background: rgba(245, 204, 66, 0.3);
+    transform: scale(0);
+    animation: ripple 0.6s linear;
+    pointer-events: none;
+}
+
+.ripple.fade-out {
+    animation: ripple-out 0.6s linear;
+}
+
+@keyframes ripple {
+    to {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+@keyframes ripple-out {
+    from {
+        transform: scale(2);
+        opacity: 0;
+    }
+    to {
+        transform: scale(2.5);
+        opacity: 0;
+    }
+}
+.action-button {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin: 10px 5px;
+    width: 100%;
+    max-width: 300px;
+}
+
+.action-button.secondary {
+    background-color: var(--surface-color);
+    border: 2px solid var(--border-color);
+}
+
+.action-button:hover {
+    background-color: var(--border-color);
+    color: var(--bg-color);
+}
+
+.install-prompt {
+    margin-top: 30px;
+    padding: 20px;
+    background-color: var(--surface-color);
+    border-radius: 10px;
+    text-align: center;
+}
+
+/* Mobile-specific styles */
+@media (max-width: 480px) {
+    .container {
+        padding: 10px;
+    }
+    
+    .avatar-preview {
+        width: 150px;
+        height: 150px;
+    }
+    
+    .action-button {
+        padding: 12px 20px;
+        font-size: 14px;
+    }
+}

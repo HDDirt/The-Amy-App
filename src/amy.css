@@ -1,0 +1,26 @@
+:root{
+  --bg:#0f1724;
+  --card:#0b1220;
+  --accent:#6ee7b7;
+  --muted:#9aa4b2;
+}
+*{box-sizing:border-box}
+body{
+  margin:0; font-family:system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;
+  background:linear-gradient(180deg,#071026 0%, #0b1220 100%); color:#e6eef6;
+  min-height:100vh; display:flex; align-items:center; justify-content:center;
+}
+.panel{
+  width:100%; max-width:420px; background:rgba(255,255,255,0.02); padding:20px; border-radius:14px;
+  box-shadow: 0 10px 30px rgba(2,6,23,0.6);
+}
+.avatar-wrap{display:flex; justify-content:center; margin-bottom:12px}
+#amy-avatar{width:140px;height:140px;object-fit:cover;border-radius:20px;border:3px solid rgba(255,255,255,0.06)}
+.name{text-align:center;margin:0 0 4px;font-size:20px}
+.subtitle{text-align:center;margin:0 0 16px;color:var(--muted);font-size:13px}
+.controls input{width:100%;padding:10px;border-radius:10px;border:1px solid rgba(255,255,255,0.04);background:transparent;color:inherit;margin-bottom:10px}
+.btn-row{display:flex; gap:8px; margin-bottom:10px}
+button{flex:1;padding:10px;border-radius:10px;border:0;background:var(--accent);color:#042018;font-weight:600;cursor:pointer}
+.quick{display:flex;gap:8px;flex-wrap:wrap}
+.quick button{flex:unset;padding:8px 10px;background:transparent;border:1px solid rgba(255,255,255,0.04);color:var(--muted);font-weight:600}
+.log{margin-top:12px;padding:8px;border-radius:8px;background:rgba(0,0,0,0.2);color:var(--muted);font-size:13px;min-height:40px}

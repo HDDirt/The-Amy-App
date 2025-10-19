@@ -1,0 +1,83 @@
+name: Build iOS .ipa
+
+on:
+  push:
+    branches: [ "main" ]
+  workflow_dispatch:
+
+jobs:
+  build-ios:
+    runs-on: macos-latest
+    env:
+      TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+      SCHEME: ${{ secrets.IOS_SCHEME || 'App' }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install dependencies
+        run: |
+          npm ci
+
+      - name: Build web assets
+        run: |
+          npm run build || (echo "Provide a correct web build command in package.json 'build:web' and map 'build' script" && exit 1)
+
+      - name: Install Capacitor CLI
+        run: |
+          npm install @capacitor/cli @capacitor/core
+
+      - name: Sync iOS native project
+        run: |
+          npx cap sync ios
+
+      - name: Import Apple certificate
+        uses: apple-actions/import-codesign-certs@v1
+        with:
+          p12-base64: ${{ secrets.APPLE_CERT_P12 }}
+          p12-password: ${{ secrets.APPLE_CERT_PASSWORD }}
+
+      - name: Import provisioning profile
+        uses: apple-actions/import-provisioning-profile@v1
+        with:
+          provisioning-profile-base64: ${{ secrets.MOBILEPROV }}
+
+      - name: Install CocoaPods
+        run: |
+          cd ios/App && pod install --repo-update
+
+      - name: Archive with xcodebuild
+        run: |
+          cd ios/App
+          xcodebuild -workspace App.xcworkspace -scheme "$SCHEME" -configuration Release -sdk iphoneos -archivePath $PWD/build/App.xcarchive archive \
+            DEVELOPMENT_TEAM=${TEAM_ID} CODE_SIGN_STYLE=Manual
+
+      - name: Export .ipa
+        run: |
+          cd ios/App
+          xcodebuild -exportArchive -archivePath $PWD/build/App.xcarchive -exportOptionsPlist <<EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+            <key>method</key>
+            <string>development</string>
+            <key>teamID</key>
+            <string>${TEAM_ID}</string>
+            <key>signingStyle</key>
+            <string>manual</string>
+          </dict>
+          </plist>
+          EOF
+          mkdir -p ./build/ipa
+          mv *.ipa ./build/ipa/ || true
+
+      - name: Upload artifact (.ipa)
+        uses: actions/upload-artifact@v4
+        with:
+          name: ios-ipa
+          path: ios/App/build/ipa/*.ipa

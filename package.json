@@ -2,7 +2,44 @@
   "name": "the-amy-app",
   "version": "0.0.0",
   "private": true,
+  "type": "module",
   "scripts": {
-    "clean-space": "bash ./scripts/cleanup.sh"
-  }
+    "clean-space": "bash ./scripts/cleanup.sh",
+    "build": "npm run build:web || echo \"Add your web build script (e.g. react/vue/ng) as 'build:web'\"",
+    "build:web": "echo \"Replace with your web build command (e.g. vite build / ng build / next build)\" && exit 0",
+    "ios:init": "npx @capacitor/cli@latest init \"The Amy App\" com.example.theamy || true",
+    "ios:add": "npx @capacitor/cli@latest add ios || echo 'Run on macOS: npx cap add ios'",
+    "ios:sync": "npx @capacitor/cli@latest sync ios",
+    "ios:open": "npx @capacitor/cli@latest open ios || echo 'Run on macOS: npx cap open ios'",
+    "start:web": "npx http-server ./src -p 3000",
+    "preview:web": "npx http-server ./src -p 3000 --cors",
+    "mobile:preview": "npm run start:web",
+    "start:remote": "npx http-server ./src -p 3000 --cors '*' --ssl --cert ./certs/cert.pem --key ./certs/key.pem",
+    "generate-certs": "bash ./scripts/generate-certs.sh",
+    "test": "mocha tests/**/*.test.js",
+    "test:watch": "mocha tests/**/*.test.js --watch",
+    "lint": "eslint src/**/*.js",
+    "debug": "node --inspect-brk node_modules/.bin/mocha tests/**/*.test.js"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^7.4.3",
+    "@capacitor/core": "^7.4.3",
+    "@types/mocha": "^10.0.10",
+    "chai": "^4.5.0",
+    "eslint": "^8.57.1",
+    "http-server": "^14.1.1",
+    "jsdom": "^22.1.0",
+    "mocha": "^10.8.2",
+    "socket.io": "^4.8.1",
+    "socket.io-client": "^4.8.1",
+    "vite": "^4.5.14"
+  },
+  "description": "3d openAI assitant application",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
 }

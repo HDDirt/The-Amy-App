@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Amy Theme Generator</title>
+    <style>
+        :root {
+            --bg: #ffffff;
+            --card: #f5f5f5;
+            --accent: #ff69b4;
+            --muted: #666666;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: var(--bg);
+            color: var(--accent);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+        }
+
+        .controls {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 10px;
+        }
+
+        .preview {
+            background: var(--card);
+            padding: 20px;
+            border-radius: 10px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+        }
+
+        .color-input {
+            margin-bottom: 15px;
+        }
+
+        .color-input label {
+            display: block;
+            margin-bottom: 5px;
+            color: var(--muted);
+        }
+
+        .preview-card {
+            background: var(--bg);
+            border: 2px solid var(--accent);
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        .preview-avatar {
+            width: 200px;
+            height: 200px;
+            margin: 0 auto;
+            display: block;
+            border-radius: 10px;
+            object-fit: cover;
+        }
+
+        button {
+            background: var(--accent);
+            color: var(--bg);
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 10px 0;
+            width: 100%;
+        }
+
+        button:hover {
+            opacity: 0.9;
+        }
+
+        .export-section {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid var(--muted);
+        }
+
+        #cssOutput {
+            width: 100%;
+            height: 100px;
+            margin-top: 10px;
+            background: var(--bg);
+            border: 1px solid var(--muted);
+            border-radius: 5px;
+            padding: 10px;
+            color: var(--accent);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="controls">
+            <h2>Theme Controls</h2>
+            <div class="color-input">
+                <label for="bgColor">Background Color</label>
+                <input type="color" id="bgColor" value="#ffffff">
+            </div>
+            <div class="color-input">
+                <label for="cardColor">Card Color</label>
+                <input type="color" id="cardColor" value="#f5f5f5">
+            </div>
+            <div class="color-input">
+                <label for="accentColor">Accent Color</label>
+                <input type="color" id="accentColor" value="#ff69b4">
+            </div>
+            <div class="color-input">
+                <label for="mutedColor">Muted Color</label>
+                <input type="color" id="mutedColor" value="#666666">
+            </div>
+            
+            <button onclick="generateRandomTheme()">Generate Random Theme</button>
+            <button onclick="resetTheme()">Reset Theme</button>
+            
+            <div class="export-section">
+                <h3>Export Theme</h3>
+                <textarea id="cssOutput" readonly></textarea>
+                <button onclick="copyCSS()">Copy CSS</button>
+            </div>
+        </div>
+        
+        <div class="preview">
+            <div class="preview-card">
+                <img src="/assets/amy.png" alt="Amy Avatar" class="preview-avatar">
+                <h3>Amy Avatar</h3>
+                <p style="color: var(--muted)">Theme preview with current avatar</p>
+            </div>
+            <div class="preview-card">
+                <h3>Interface Elements</h3>
+                <p style="color: var(--muted)">Sample text in muted color</p>
+                <button>Sample Button</button>
+            </div>
+            <div class="preview-card">
+                <h3>Color Palette</h3>
+                <div style="display: flex; gap: 10px; margin-top: 10px;">
+                    <div style="width: 50px; height: 50px; background: var(--bg); border: 1px solid var(--muted);"></div>
+                    <div style="width: 50px; height: 50px; background: var(--card); border: 1px solid var(--muted);"></div>
+                    <div style="width: 50px; height: 50px; background: var(--accent); border: 1px solid var(--muted);"></div>
+                    <div style="width: 50px; height: 50px; background: var(--muted); border: 1px solid var(--accent);"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function updateTheme() {
+            const root = document.documentElement;
+            const bgColor = document.getElementById('bgColor').value;
+            const cardColor = document.getElementById('cardColor').value;
+            const accentColor = document.getElementById('accentColor').value;
+            const mutedColor = document.getElementById('mutedColor').value;
+
+            root.style.setProperty('--bg', bgColor);
+            root.style.setProperty('--card', cardColor);
+            root.style.setProperty('--accent', accentColor);
+            root.style.setProperty('--muted', mutedColor);
+
+            updateCSSOutput();
+        }
+
+        function generateRandomTheme() {
+            const getRandomColor = () => '#' + Math.floor(Math.random()*16777215).toString(16).padStart(6, '0');
+            
+            document.getElementById('bgColor').value = getRandomColor();
+            document.getElementById('cardColor').value = getRandomColor();
+            document.getElementById('accentColor').value = getRandomColor();
+            document.getElementById('mutedColor').value = getRandomColor();
+            
+            updateTheme();
+        }
+
+        function resetTheme() {
+            document.getElementById('bgColor').value = '#ffffff';
+            document.getElementById('cardColor').value = '#f5f5f5';
+            document.getElementById('accentColor').value = '#ff69b4';
+            document.getElementById('mutedColor').value = '#666666';
+            
+            updateTheme();
+        }
+
+        function updateCSSOutput() {
+            const css = `:root {
+    --bg: ${document.getElementById('bgColor').value};
+    --card: ${document.getElementById('cardColor').value};
+    --accent: ${document.getElementById('accentColor').value};
+    --muted: ${document.getElementById('mutedColor').value};
+}`;
+            document.getElementById('cssOutput').value = css;
+        }
+
+        function copyCSS() {
+            const cssOutput = document.getElementById('cssOutput');
+            cssOutput.select();
+            document.execCommand('copy');
+            alert('CSS copied to clipboard!');
+        }
+
+        // Add event listeners to color inputs
+        document.getElementById('bgColor').addEventListener('input', updateTheme);
+        document.getElementById('cardColor').addEventListener('input', updateTheme);
+        document.getElementById('accentColor').addEventListener('input', updateTheme);
+        document.getElementById('mutedColor').addEventListener('input', updateTheme);
+
+        // Initialize CSS output
+        updateCSSOutput();
+    </script>
+</body>
+</html>

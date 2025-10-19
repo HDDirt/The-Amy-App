@@ -150,3 +150,15 @@ venv/
 
 # JetBrains
 .idea/
+
+# Native mobile build folders
+ios/
+android/
+ios/App/build/
+android/app/build/
+*.xcarchive
+*.ipa
+
+# Build outputs
+dist/
+src/*.zip
